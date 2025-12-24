@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // middleware to read JSON and allow frontend to call API
 app.use(cors());
@@ -161,5 +161,5 @@ app.get("/history", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`API running at http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
