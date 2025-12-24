@@ -1,4 +1,17 @@
-const API_BASE = "http://localhost:3000"; // your Node backend
+const API_BASE = "https://ohms-law-calculator.onrender.com"; // your Node backend
+
+// helper to call backend API
+async function callApi(data) {
+  const res = await fetch(API_BASE + "/calculate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    throw new Error("Server returned " + res.status);
+  }
+  return res.json();
+}
 
 const form = document.getElementById("calcForm");
 const resultDiv = document.getElementById("result");
@@ -23,13 +36,7 @@ form.addEventListener("submit", async (e) => {
   };
 
   try {
-    const res = await fetch(`${API_BASE}/calculate`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-    const data = await res.json();
+    const data = await callApi(payload);
 
     if (data.error) {
       resultDiv.innerHTML = `<strong>Error:</strong> ${data.error}`;
